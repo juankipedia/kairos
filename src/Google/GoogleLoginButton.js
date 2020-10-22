@@ -3,9 +3,7 @@ import { connect } from "react-redux";
 import {loginAction} from "../actions/loginAction"
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 
-
 const CLIENT_ID = '1059520092363-p92ts9q2f437a9lj9a6g223pd42a8db5.apps.googleusercontent.com';
-
 
 class GoogleLoginButton extends Component {
    constructor(props) {
@@ -28,7 +26,8 @@ class GoogleLoginButton extends Component {
         isLogined: true,
         accessToken: response.accessToken
       }));
-      this.props.login({s: 1});
+      console.log(response);
+      this.props.login({profile: response.profileObj, isLoggedIn: true});
     }
   }
 

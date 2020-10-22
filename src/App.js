@@ -12,7 +12,6 @@ import {
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
         <Router>
           <Switch>
             <Route path="/Home">
@@ -23,7 +22,6 @@ function App() {
             </Route>
           </Switch>
         </Router>
-      </header>
     </div>
   );
 }

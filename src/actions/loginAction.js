@@ -3,7 +3,8 @@ export const loginAction = (content) => {
         {
             type: "LOGIN",
             payload:{
-               isLoggedIn : true
+               isLoggedIn : content.isLoggedIn,
+               profile: content.profile
             }
         }
     )
