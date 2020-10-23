@@ -5,7 +5,11 @@ import {
   Form, 
   Button, 
   Navbar,
-  Image
+  Image,
+  Container,
+  ListGroup,
+  Col,
+  Row
 } from "react-bootstrap";
 import StateLoader from "../StateLoader"
 
@@ -35,6 +39,50 @@ class Home extends React.Component {
             <Button variant="outline-primary" onClick={this.logout}>Logout</Button>
           </Form>
         </Navbar>
+        <Container>
+          <Row className="justify-content-center" style={{padding: "2em"}}>
+            <Col>
+              <ListGroup style={{overflowY: "scroll", maxHeight: "25em"}}>
+                <ListGroup.Item action>
+                  Project 1.
+                </ListGroup.Item>
+                <ListGroup.Item action>
+                  Project 2.
+                </ListGroup.Item>
+                <ListGroup.Item action>
+                  Project 1.
+                </ListGroup.Item>
+                <ListGroup.Item action>
+                  Project 2.
+                </ListGroup.Item>
+                <ListGroup.Item action>
+                  Project 1.
+                </ListGroup.Item>
+                <ListGroup.Item action>
+                  Project 2.
+                </ListGroup.Item>
+                <ListGroup.Item action>
+                  Project 1.
+                </ListGroup.Item>
+                <ListGroup.Item action>
+                  Project 2.
+                </ListGroup.Item>
+                <ListGroup.Item action>
+                  Project 1.
+                </ListGroup.Item>
+                <ListGroup.Item action>
+                  Project 2.
+                </ListGroup.Item>
+                <ListGroup.Item action>
+                  Project 25.
+                </ListGroup.Item>
+                <ListGroup.Item action>
+                  Project 30.
+                </ListGroup.Item>
+              </ListGroup>
+            </Col>  
+          </Row>
+        </Container>
       </div>
     );
   }
