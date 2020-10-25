@@ -6,7 +6,8 @@ import {
   Row,
   Card,
   Button,
-  ListGroup
+  ListGroup,
+  Accordion
 } from "react-bootstrap";
 import NavigationBar from "../Nav/NavigationBar"
 import './Project.css'
@@ -98,7 +99,7 @@ class Project extends React.Component {
     var items = []
     for(var i = 0; i < this.state.tasks.length; i++ ) {
       items.push(
-        <ListGroup.Item className="task-resume-item">
+        <ListGroup.Item key={i.toString()} className="task-resume-item">
           {this.state.tasks[i].name + "  / X%"}
         </ListGroup.Item>);
     }
@@ -106,6 +107,41 @@ class Project extends React.Component {
       <ListGroup className="tasks-resume">
         {items}
       </ListGroup>
+    );
+  }
+
+  createTaskListInfo = () => {
+    var cards = [];
+    for(var i = 0; i < this.state.tasks.length; i++) {
+      var collaborators = "";
+      var collaboratorsLen = this.state.tasks[i].collaborators.length; 
+      for(var j = 0; j < collaboratorsLen; j++) {
+        collaborators += this.state.tasks[i].collaborators[j].email;
+        if(j + 1 !== collaboratorsLen)
+          collaborators += ", "
+      }
+      cards.push(
+        <Card key={i.toString()}>
+          <Accordion.Toggle as={Card.Header} eventKey={i.toString()}>
+            {this.state.tasks[i].name}
+          </Accordion.Toggle>
+          <Accordion.Collapse eventKey={i.toString()}>
+            <Card.Body className="task-description">
+              {this.state.tasks[i].description}
+              <br/>
+              Collaborators:
+              <br/>
+              {collaborators}
+            </Card.Body>
+          </Accordion.Collapse>
+        </Card>
+      ); 
+    }
+
+    return(
+      <Accordion className="tasks-info">
+        {cards}
+      </Accordion>  
     );
   }
 
@@ -138,8 +174,8 @@ class Project extends React.Component {
           </Row>
           <br/>
           <Row>
-            <Col xs={4} md={4} lg={4} style={{backgroundColor:"blue"}}>
-              column 3
+            <Col xs={4} md={4} lg={4}>
+              {this.createTaskListInfo()}
             </Col>
             <Col xs={8} md={8} lg={8} style={{backgroundColor:"black"}}>
               column 4
