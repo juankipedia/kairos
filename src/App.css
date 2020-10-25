@@ -4,3 +4,7 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+br {
+  line-height: 400%;
+}
