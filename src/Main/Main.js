@@ -1,6 +1,5 @@
 import React from "react";
 import {connect} from "react-redux";
-import {loginAction} from "../actions/loginAction"
 import './Main.css'
 import GoogleLoginButton from "../Google/GoogleLoginButton.js";
 import StateLoader from "../StateLoader"
@@ -17,7 +16,7 @@ class Main extends React.Component {
   render() {
     if(this.props.isLoggedIn) {
       stateLoader.saveState(this.props)
-      window.location.assign('./Home');
+      window.location.assign('./home');
     }
     let logoSrc = window.innerWidth >= 1020 ? logoPC : logoMobile;
   	return (
@@ -41,7 +40,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  login: (content) => dispatch(loginAction(content)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

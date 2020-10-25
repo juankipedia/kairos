@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Main from './Main/Main';
 import Home from './Home/Home';
+import Project from './Project/Project'
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,8 +15,11 @@ function App() {
     <div className="App">
         <Router>
           <Switch>
-            <Route path="/Home">
+            <Route path="/home">
               <Home />
+            </Route>
+            <Route path="/project">
+              <Project />
             </Route>
             <Route path="/">
               <Main />
