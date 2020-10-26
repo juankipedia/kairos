@@ -1,0 +1,5 @@
+.chart-div {
+    height: 160px;
+    max-height: 160px;
+    overflow: auto;
+}

@@ -11,6 +11,7 @@ import {
 } from "react-bootstrap";
 import NavigationBar from "../Nav/NavigationBar"
 import './Project.css'
+import Charts from "../Charts/Charts"
 
 class Project extends React.Component {
   state = {
@@ -149,6 +150,9 @@ class Project extends React.Component {
   }
 
   render() {
+    if(!this.props.projectId) {
+      window.location.assign('./home')
+    }
     return (
       <div>
         <NavigationBar/>  
@@ -180,8 +184,8 @@ class Project extends React.Component {
             <Col xs={4} md={4} lg={4}>
               {this.createTaskListInfo()}
             </Col>
-            <Col xs={8} md={8} lg={8} style={{backgroundColor:"black"}}>
-              column 4
+            <Col xs={8} md={8} lg={8}>
+              <Charts/>
             </Col>
           </Row>
         </Container>
