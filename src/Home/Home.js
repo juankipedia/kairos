@@ -27,7 +27,7 @@ class Home extends React.Component {
         <Container>
           <Row className="justify-content-center" style={{padding: "2em"}}>
             <Col>
-              <ListGroup style={{overflowY: "scroll", maxHeight: "25em"}}>
+              <ListGroup style={{overflowY: "auto", maxHeight: "25em"}}>
                 <ListGroup.Item action onClick={() => this.openProject(1)}>
                   Project 1.
                 </ListGroup.Item>
