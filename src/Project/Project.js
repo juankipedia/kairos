@@ -12,7 +12,8 @@ import {
 import NavigationBar from "../Nav/NavigationBar";
 import './Project.css';
 import Charts from "../Charts/Charts";
-import Firebase from "firebase";
+import Firebase from 'firebase/app';
+import "firebase/database"
 
 class Project extends React.Component {
   state = {};

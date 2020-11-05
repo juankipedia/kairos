@@ -3,7 +3,8 @@ import './App.css';
 import Main from './Main/Main';
 import Home from './Home/Home';
 import Project from './Project/Project'
-import Firebase from 'firebase';
+import Firebase from 'firebase/app';
+import "firebase/database"
 import config from './config';
 import {
   BrowserRouter as Router,
