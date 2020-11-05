@@ -91,7 +91,8 @@ class Project extends React.Component {
   }
 
   getActualDay = () => {
-    return Math.floor(this.getActualTimestampDiff() / (1000 * 60 * 60 * 24)) + 1;
+    var w = this.getActualWeek() - 1;
+    return (Math.floor(this.getActualTimestampDiff() / (1000 * 60 * 60 * 24)) - w * 7) + 1;
   }
 
   getActualWeek = () => {
