@@ -1,27 +1,27 @@
 {
-    "id": 12131,
-    "name": "project 1",
-    "description": "this is a nice project",
-    "start": 1231234321,
-    "tasks":[
-        {
-            "id": 21321,
-            "name": "task1",
-            "description": "this is a really simple task",
-            "collaborators":[
-                {
-                    "email":"jmoron@unal.edu.co",
-                    "hours": 213
-                }, 
-                {
-                    "email": "jmoron2@unal.edu.co",
-                    "hours": 2121
-                }
-            ],
-            "start": 123123134,
-            "duration": 2,
-            "hours": 23423
-        }
-    ],
-    "members":["jmoron@unal.edu.co", "jmoron2@unal.edu.co", "jmoron3@unal.edu.co"]
+  "115233710715005040063" : {
+    "1" : {
+      "description" : "this is a nice project",
+      "id" : 1,
+      "members" : [ "jmoron@unal.edu.co", "jmoron2@unal.edu.co", "jmoron3@unal.edu.co" ],
+      "name" : "project 1",
+      "start" : 1604194155,
+      "tasks" : [ {
+        "collaborators" : [ {
+          "email" : "jmoron@unal.edu.co",
+          "hours" : 0
+        }, {
+          "email" : "jmoron2@unal.edu.co",
+          "hours" : 0
+        } ],
+        "description" : "this is a really simple task",
+        "duration" : 2,
+        "hours" : 0,
+        "id" : 0,
+        "name" : "task1",
+        "start" : 1604194155
+      } ]
+    },
+    "current-project-id" : 2
+  }
 }

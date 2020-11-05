@@ -9,92 +9,13 @@ import {
   ListGroup,
   Accordion
 } from "react-bootstrap";
-import NavigationBar from "../Nav/NavigationBar"
-import './Project.css'
-import Charts from "../Charts/Charts"
+import NavigationBar from "../Nav/NavigationBar";
+import './Project.css';
+import Charts from "../Charts/Charts";
+import Firebase from "firebase";
 
 class Project extends React.Component {
-  state = {
-    "id": 12131,
-    "name": "project 1",
-    "description": "this is a nice project",
-    "start": 1231234321,
-    "tasks":[
-        {
-            "id": 21321,
-            "name": "task1",
-            "description": "this is a really simple task",
-            "collaborators":[
-                {
-                    "email":"jmoron@unal.edu.co",
-                    "hours": 213
-                }, 
-                {
-                    "email": "jmoron2@unal.edu.co",
-                    "hours": 2121
-                }
-            ],
-            "start": 123123134,
-            "duration": 2,
-            "hours": 23423
-        },
-        {
-          "id": 21321,
-          "name": "task1",
-          "description": "this is a really simple task",
-          "collaborators":[
-              {
-                  "email":"jmoron@unal.edu.co",
-                  "hours": 213
-              }, 
-              {
-                  "email": "jmoron2@unal.edu.co",
-                  "hours": 2121
-              }
-          ],
-          "start": 123123134,
-          "duration": 2,
-          "hours": 23423
-      },
-      {
-        "id": 21321,
-        "name": "task1",
-        "description": "this is a really simple task",
-        "collaborators":[
-            {
-                "email":"jmoron@unal.edu.co",
-                "hours": 213
-            }, 
-            {
-                "email": "jmoron2@unal.edu.co",
-                "hours": 2121
-            }
-        ],
-        "start": 123123134,
-        "duration": 2,
-        "hours": 23423
-      },
-      {
-        "id": 21321,
-        "name": "task1",
-        "description": "this is a really simple task",
-        "collaborators":[
-            {
-                "email":"jmoron@unal.edu.co",
-                "hours": 213
-            }, 
-            {
-                "email": "jmoron2@unal.edu.co",
-                "hours": 2121
-            }
-        ],
-        "start": 123123134,
-        "duration": 2,
-        "hours": 23423
-      }
-    ],
-    "members":["jmoron@unal.edu.co", "jmoron2@unal.edu.co", "jmoron3@unal.edu.co"]
-  };
+  state = {};
 
   createTaskListResume = () => {
     var items = []
@@ -149,10 +70,23 @@ class Project extends React.Component {
     );
   }
 
+  loadProjectData = () => {
+    let ref = Firebase.database().ref('/' + this.props.profile.googleId + '/' + this.props.projectId.toString());
+    ref.on('value', snapshot => {
+      const project = snapshot.val();
+      this.setState(project)
+    });
+  }
+
+  componentDidMount() {
+    this.loadProjectData();
+  }
+
   render() {
-    if(!this.props.projectId) {
-      window.location.assign('./home')
-    }
+    if(!this.props.projectId)
+      window.location.assign('./home');
+    if(Object.keys(this.state).length === 0)
+      return <p> Loading please wait </p>
     return (
       <div>
         <NavigationBar/>  

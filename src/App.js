@@ -3,6 +3,8 @@ import './App.css';
 import Main from './Main/Main';
 import Home from './Home/Home';
 import Project from './Project/Project'
+import Firebase from 'firebase';
+import config from './config';
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,24 +12,31 @@ import {
 } from "react-router-dom";
 
 
-function App() {
-  return (
-    <div className="App">
-        <Router>
-          <Switch>
-            <Route path="/home">
-              <Home />
-            </Route>
-            <Route path="/project">
-              <Project />
-            </Route>
-            <Route path="/">
-              <Main />
-            </Route>
-          </Switch>
-        </Router>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props){
+    super(props);
+    Firebase.initializeApp(config);
+    this.state = {}
+  }
+  render(){
+    return (
+      <div className="App">
+          <Router>
+            <Switch>
+              <Route path="/home">
+                <Home />
+              </Route>
+              <Route path="/project">
+                <Project />
+              </Route>
+              <Route path="/">
+                <Main />
+              </Route>
+            </Switch>
+          </Router>
+      </div>
+    );  
+  }
 }
 
 export default App;

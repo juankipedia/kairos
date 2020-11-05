@@ -21,11 +21,6 @@ class NavigationBar extends React.Component {
     window.location.assign('./');
   }
 
-  openProject = (id)=>{
-    stateLoader.saveState({...this.props, projectId: id});
-    window.location.assign('./project')
-  }
-
   render() {
     return (
       <Navbar bg="light" variant="light">
