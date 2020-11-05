@@ -8,6 +8,8 @@ import {
 } from "react-bootstrap";
 import StateLoader from "../StateLoader"
 import NavigationBar from "../Nav/NavigationBar"
+import Firebase from 'firebase/app';
+import "firebase/database"
 
 const stateLoader = new StateLoader();
 
@@ -20,24 +22,45 @@ class Home extends React.Component {
     window.location.assign('./project')
   }
 
+  loadProjects = () => {
+    let ref = Firebase.database().ref('/' + this.props.profile.googleId + '/' + 'projects');
+    ref.on('value', snapshot => {
+      const state = {projects: snapshot.val()};
+      console.log(state);
+      this.setState(state)
+    });
+  }
+
+  componentDidMount() {
+    this.loadProjects();
+  }
+
+  createTaskListResume = () => {
+    var items = []
+    Object.keys(this.state.projects).forEach(projectId =>
+      items.push(
+        <ListGroup.Item key={projectId} action onClick={() => this.openProject(projectId)}>
+          {this.state.projects[projectId]}
+        </ListGroup.Item>
+      )
+    )
+    return (
+      <ListGroup style={{overflowY: "auto", maxHeight: "25em"}}>
+        {items}
+      </ListGroup>
+    );
+  }
+
   render() {
+    if(Object.keys(this.state).length === 0)
+      return <p> Loading please wait </p>
     return (
       <div>
         <NavigationBar/>
         <Container>
           <Row className="justify-content-center" style={{padding: "2em"}}>
             <Col>
-              <ListGroup style={{overflowY: "auto", maxHeight: "25em"}}>
-                <ListGroup.Item action onClick={() => this.openProject(1)}>
-                  Project 1.
-                </ListGroup.Item>
-                <ListGroup.Item action onClick={() => this.openProject(1)}>
-                  Project 2.
-                </ListGroup.Item>
-                <ListGroup.Item action onClick={() => this.openProject(1)}>
-                  Project 1.
-                </ListGroup.Item>
-              </ListGroup>
+              {this.createTaskListResume()}
             </Col>  
           </Row>
         </Container>

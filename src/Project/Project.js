@@ -72,7 +72,7 @@ class Project extends React.Component {
   }
 
   loadProjectData = () => {
-    let ref = Firebase.database().ref('/' + this.props.profile.googleId + '/' + this.props.projectId.toString());
+    let ref = Firebase.database().ref('/' + this.props.profile.googleId + '/' + this.props.projectId);
     ref.on('value', snapshot => {
       const project = snapshot.val();
       this.setState(project)
