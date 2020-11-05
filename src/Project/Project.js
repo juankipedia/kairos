@@ -83,6 +83,21 @@ class Project extends React.Component {
     this.loadProjectData();
   }
 
+  getActualTimestampDiff = () => {
+    var cur_date = new Date();
+    var cur_timestamp = cur_date.getTime();
+    var diff  = Math.abs(cur_timestamp - this.state.start);
+    return diff;
+  }
+
+  getActualDay = () => {
+    return Math.floor(this.getActualTimestampDiff() / (1000 * 60 * 60 * 24)) + 1;
+  }
+
+  getActualWeek = () => {
+    return Math.floor(this.getActualTimestampDiff() / (1000 * 60 * 60 * 24 * 7)) + 1;
+  }
+
   render() {
     if(!this.props.projectId)
       window.location.assign('./home');
@@ -98,7 +113,7 @@ class Project extends React.Component {
               <Card className="project-card">
                 <Card.Body>
                   <Card.Title className="card-title"> {this.state.name} </Card.Title>
-                  <Card.Subtitle className="mb-2 text-muted">Day number X of week Y</Card.Subtitle>
+                    <Card.Subtitle className="mb-2 text-muted">Day number {this.getActualDay()} of week {this.getActualWeek()}</Card.Subtitle>
                   <Card.Text>
                     {this.state.description}
                   </Card.Text>
