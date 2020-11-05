@@ -23,10 +23,9 @@ class Home extends React.Component {
   }
 
   loadProjects = () => {
-    let ref = Firebase.database().ref('/' + this.props.profile.googleId + '/' + 'projects');
+    let ref = Firebase.database().ref('/' + this.props.profile.googleId + '/projects');
     ref.on('value', snapshot => {
       const state = {projects: snapshot.val()};
-      console.log(state);
       this.setState(state)
     });
   }
@@ -36,6 +35,8 @@ class Home extends React.Component {
   }
 
   createTaskListResume = () => {
+    if(this.state.projects === null)
+      return
     var items = []
     Object.keys(this.state.projects).forEach(projectId =>
       items.push(

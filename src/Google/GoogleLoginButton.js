@@ -26,7 +26,6 @@ class GoogleLoginButton extends Component {
         isLogined: true,
         accessToken: response.accessToken
       }));
-      console.log(response);
       this.props.login({profile: response.profileObj, isLoggedIn: true});
     }
   }
