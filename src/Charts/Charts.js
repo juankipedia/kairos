@@ -78,7 +78,7 @@ class Charts extends React.Component {
                         </Col>
                         <Col xs={6} md={6} lg={6} >
                             <Row className="justify-content-center">
-                                <p>Weekly Progress</p>
+                                <p>Contributions</p>
                             </Row>
                             <Row className="justify-content-center" >
                                 <Button className="cake-chart"/>
