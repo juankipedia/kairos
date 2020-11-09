@@ -136,7 +136,7 @@ class Project extends React.Component {
               {this.createTaskListInfo()}
             </Col>
             <Col xs={8} md={8} lg={8}>
-              <Charts/>
+              <Charts projectData = {this.state}/>
             </Col>
           </Row>
         </Container>

@@ -31,6 +31,8 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
+    if(this.props.profile === undefined)
+      window.location.assign('./');
     this.loadProjects();
   }
 

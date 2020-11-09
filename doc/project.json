@@ -6,21 +6,68 @@
       "members" : [ "jmoron@unal.edu.co", "jmoron2@unal.edu.co", "jmoron3@unal.edu.co" ],
       "name" : "project 1",
       "start" : 1603719394155,
-      "tasks" : [ {
-        "collaborators" : [ {
-          "email" : "jmoron@unal.edu.co",
-          "hours" : 0
-        }, {
-          "email" : "jmoron2@unal.edu.co",
-          "hours" : 0
-        } ],
-        "description" : "this is a really simple task",
-        "duration" : 2,
-        "hours" : 336,
-        "id" : 0,
-        "name" : "task1",
-        "start" : 1603719394155
-      } ]
+      "tasks" : [ 
+        {
+          "collaborators" : [ {
+            "email" : "jmoron@unal.edu.co",
+            "hours" : 0
+          }, {
+            "email" : "jmoron2@unal.edu.co",
+            "hours" : 0
+          } ],
+          "description" : "this is a really simple task",
+          "duration" : 2,
+          "hours" : 336,
+          "id" : 0,
+          "name" : "task1",
+          "start" : 1603719394155
+        },
+        {
+          "collaborators" : [ {
+            "email" : "jmoron@unal.edu.co",
+            "hours" : 0
+          }, {
+            "email" : "jmoron2@unal.edu.co",
+            "hours" : 0
+          } ],
+          "description" : "this is a really simple task",
+          "duration" : 2,
+          "hours" : 336,
+          "id" : 0,
+          "name" : "task1",
+          "start" : 1603719394155
+        },
+        {
+          "collaborators" : [ {
+            "email" : "jmoron@unal.edu.co",
+            "hours" : 0
+          }, {
+            "email" : "jmoron2@unal.edu.co",
+            "hours" : 0
+          } ],
+          "description" : "this is a really simple task",
+          "duration" : 2,
+          "hours" : 336,
+          "id" : 0,
+          "name" : "task1",
+          "start" : 1603719394155
+        },
+        {
+          "collaborators" : [ {
+            "email" : "jmoron@unal.edu.co",
+            "hours" : 0
+          }, {
+            "email" : "jmoron2@unal.edu.co",
+            "hours" : 0
+          } ],
+          "description" : "this is a really simple task",
+          "duration" : 2,
+          "hours" : 336,
+          "id" : 0,
+          "name" : "task1",
+          "start" : 1603719394155
+        }
+    ]
     },
     "2" : {
       "description" : "this is the nicest project",
