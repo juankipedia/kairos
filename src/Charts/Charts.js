@@ -8,7 +8,8 @@ import {
   Modal
 } from "react-bootstrap";
 import "./Charts.css";
-import {Bar} from 'react-chartjs-2';
+import {Bar, Pie} from 'react-chartjs-2';
+import crypto from 'crypto';
 
 class Charts extends React.Component {
     state = {
@@ -16,26 +17,49 @@ class Charts extends React.Component {
         chart2Show: false
     }
 
-    handleCloseChart1 = () => this.setState({chart1Show: false, chart2Show: this.state.chart2Show});
-    handleShowChart1 = () => this.setState({chart1Show: true, chart2Show: this.state.chart2Show});
+    hex_color_from_string = (s) => {
+        let hashPwd = crypto.createHash('sha1').update(s).digest('hex');
+        return '#' + hashPwd.slice(0, 6);
+    };
+
+    handleCloseChart1 = () => this.setState({...this.state, chart1Show: false});
+    handleShowChart1 = () => this.setState({...this.state, chart1Show: true});
     getChart1Data = () => {
-        let members = {}
-        this.props.projectData.members.forEach(m => members[m] = 0)
-        this.props.projectData.tasks.forEach(t =>
-            t.collaborators.forEach(c => members[c.email] += c.hours)
-        )
-        console.log(members)
+        let members = {};
+        this.props.projectData.members.forEach(m => members[m] = 0);
+        this.props.projectData.tasks.forEach(t => t.collaborators.forEach(c => members[c.email] += c.hours));
+
         return {
             labels: Object.keys(members),
-            datasets: [
-                {
-                label: 'Rainfall',
+            datasets: [{
+                label: 'Hours worked',
                 backgroundColor: 'rgba(75,192,192,1)',
                 borderColor: 'rgba(0,0,0,1)',
                 borderWidth: 2,
                 data: Object.values(members)
-                }
-            ]
+            }]
+        }
+    }
+
+    handleCloseChart2 = () => this.setState({...this.state, chart2Show: false});
+    handleShowChart2 = () => this.setState({...this.state, chart2Show: true});
+    getChart2Data = () => {
+        let members = {};
+        let colors = {};
+        this.props.projectData.members.forEach(m =>{
+            members[m] = 0;
+            colors[m] = this.hex_color_from_string(m);
+        });
+        this.props.projectData.tasks.forEach(t =>t.collaborators.forEach(c => members[c.email] += c.contributions))
+
+        return {
+            labels: Object.keys(members),
+            datasets: [{
+                label: 'Contributions',
+                backgroundColor: Object.values(colors),
+                hoverBackgroundColor: Object.values(colors),
+                data: Object.values(members)
+            }]
         }
     }
 
@@ -52,7 +76,6 @@ class Charts extends React.Component {
                                 <Button className="bar-chart" onClick={this.handleShowChart1}/>
                                 <Modal show={this.state.chart1Show} onHide={this.handleCloseChart1}>
                                     <Modal.Header closeButton>
-                                    <Modal.Title>Hours worked per Collaborator</Modal.Title>
                                     </Modal.Header>
                                     <Modal.Body>
                                         <div className="chart-div">
@@ -81,7 +104,30 @@ class Charts extends React.Component {
                                 <p>Contributions</p>
                             </Row>
                             <Row className="justify-content-center" >
-                                <Button className="cake-chart"/>
+                                <Button className="cake-chart" onClick={this.handleShowChart2}/>
+                                <Modal show={this.state.chart2Show} onHide={this.handleCloseChart2}>
+                                    <Modal.Header closeButton>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <div className="chart-div">
+                                            <Pie
+                                                height={200}
+                                                data={this.getChart2Data}
+                                                options={{
+                                                        title:{
+                                                        display:true,
+                                                        text:'Contributions per Collaborator',
+                                                        fontSize:20
+                                                    },
+                                                    legend:{
+                                                        display:true,
+                                                        position:'right'
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                    </Modal.Body>
+                                </Modal>
                             </Row>
                         </Col>  
                     </Row>
