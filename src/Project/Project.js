@@ -13,7 +13,8 @@ import NavigationBar from "../Nav/NavigationBar";
 import './Project.css';
 import Charts from "../Charts/Charts";
 import Firebase from 'firebase/app';
-import "firebase/database"
+import "firebase/database";
+import Graph from '../Graph/Graph';
 
 class Project extends React.Component {
   state = {};
@@ -126,8 +127,8 @@ class Project extends React.Component {
                 <Button variant="secondary">Add Progress</Button>
               </div>
             </Col>  
-            <Col xs={8} md={8} lg={8} style={{backgroundColor:"green"}}>
-              column 2
+            <Col xs={8} md={8} lg={8}>
+              <Graph/>
             </Col>
           </Row>
           <br/>
