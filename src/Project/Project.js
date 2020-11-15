@@ -128,7 +128,7 @@ class Project extends React.Component {
               </div>
             </Col>  
             <Col xs={8} md={8} lg={8}>
-              <Graph projectData = {this.state}/>
+              <Graph projectData={this.state} actualWeek={this.getActualWeek()}/>
             </Col>
           </Row>
           <br/>
@@ -137,7 +137,7 @@ class Project extends React.Component {
               {this.createTaskListInfo()}
             </Col>
             <Col xs={8} md={8} lg={8}>
-              <Charts projectData = {this.state}/>
+              <Charts projectData={this.state}/>
             </Col>
           </Row>
         </Container>

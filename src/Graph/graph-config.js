@@ -1,15 +1,22 @@
 import * as React from 'react';
 export const NODE_KEY = 'id';
 export const TASK_TYPE = 'task';
-export const SPECIAL_TYPE = 'special';
-export const SPECIAL_EDGE_TYPE = 'specialEdge';
-export const nodeTypes = [TASK_TYPE, SPECIAL_TYPE];
-export const edgeTypes = [SPECIAL_EDGE_TYPE];
+export const WEEK_TYPE = 'week';
+export const ACTUAL_WEEK_TYPE = 'actual_week';
+export const EDGE_TYPE = 'edge';
+export const nodeTypes = [TASK_TYPE, WEEK_TYPE, ACTUAL_WEEK_TYPE];
+export const edgeTypes = [EDGE_TYPE];
 
-const SpecialShape = (
-    <symbol viewBox="0 0 200 200" id="special">
-        <circle cx="100" cy="100" r="70" fill="rgb(255, 250, 129)" color="black"/>
+const Week = (
+    <symbol viewBox="0 0 200 200" id="week">
+        <circle cx="100" cy="100" r="70" fill="rgb(216, 216, 216)" color="black"/>
     </symbol>
+);
+
+const ActualWeek = (
+  <symbol viewBox="0 0 200 200" id="actual_week">
+      <circle cx="100" cy="100" r="70" fill="rgb(111, 183, 214)" color="black"/>
+  </symbol>
 );
 
 const Task = (
@@ -18,23 +25,28 @@ const Task = (
   </symbol>
 );
 
-const SpecialEdgeShape = (
-  <symbol viewBox="0 0 50 50" id="specialEdge"/>
+const Edge = (
+  <symbol viewBox="0 0 50 50" id="edge"/>
 );
 
 export default {
   EdgeTypes: {
-    specialEdge: {
-      shape: SpecialEdgeShape,
-      shapeId: '#specialEdge',
+    edge: {
+      shape: Edge,
+      shapeId: '#edge',
     },
   },
   NodeSubtypes: {
   },
   NodeTypes: {
-    special: {
-      shape: SpecialShape,
-      shapeId: '#special',
+    week: {
+      shape: Week,
+      shapeId: '#week',
+      typeText: 'Week',
+    },
+    actual_week:{
+      shape: ActualWeek,
+      shapeId: '#actual_week',
       typeText: 'Week',
     },
     task: {

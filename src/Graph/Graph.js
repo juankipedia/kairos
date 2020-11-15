@@ -9,9 +9,10 @@ import {
 import GraphConfig, {
   NODE_KEY,
   TASK_TYPE,
-  SPECIAL_TYPE,
-  SPECIAL_EDGE_TYPE,
-} from './graph-config.js'; // Configures node/edge types
+  WEEK_TYPE,
+  ACTUAL_WEEK_TYPE,
+  EDGE_TYPE,
+} from './graph-config.js';
 
 type IGraph = {
   nodes: INode[],
@@ -21,7 +22,7 @@ type IGraph = {
 var nodesLen;
 var lastWeek;
 
-function createNodes(projectData) {
+function createNodes(projectData, actualWeek) {
     let nodes = [];
     lastWeek = 0;
     projectData.tasks.forEach(t => {
@@ -33,10 +34,10 @@ function createNodes(projectData) {
         })
     });
     for (let i = 1; i <= lastWeek; i++) {
-        nodes.push(            {
+        nodes.push({
             id: 'week' + i.toString(),
             title: i.toString(),
-            type: SPECIAL_TYPE
+            type: actualWeek === i ? ACTUAL_WEEK_TYPE : WEEK_TYPE
         });
     }
     return nodes;
@@ -49,7 +50,7 @@ function createEdges(projectData) {
             edges.push({
                 source: 'week' + (t.start + i).toString(),
                 target: t.id.toString(),
-                type: SPECIAL_EDGE_TYPE,
+                type: EDGE_TYPE,
             });    
         }
     });
@@ -57,14 +58,14 @@ function createEdges(projectData) {
         edges.push({
             source: 'week' + i.toString(),
             target: 'week' + (i + 1).toString(),
-            type: SPECIAL_EDGE_TYPE,
+            type: EDGE_TYPE,
         }); 
     }
     return edges;
 }
 
-function getGraphObject(projectData) {
-    let nodes = createNodes(projectData);
+function getGraphObject(projectData, actualWeek) {
+    let nodes = createNodes(projectData, actualWeek);
     let edges = createEdges(projectData);
     console.log(nodes);
     let graphObject: IGraph = {
@@ -89,7 +90,7 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
         super(props);
         this.state = {
             copiedNode: null,
-            graph: getGraphObject(this.props.projectData),
+            graph: getGraphObject(this.props.projectData, this.props.actualWeek),
             layoutEngineType: undefined,
             selected: null,
             totalNodes: nodesLen,
