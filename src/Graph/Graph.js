@@ -9,7 +9,8 @@ import {
 import GraphConfig, {
   NODE_KEY,
   TASK_TYPE,
-  WEEK_TYPE,
+  PAST_WEEK_TYPE,
+  FUTURE_WEEK_TYPE,
   ACTUAL_WEEK_TYPE,
   EDGE_TYPE,
 } from './graph-config.js';
@@ -37,7 +38,7 @@ function createNodes(projectData, actualWeek) {
         nodes.push({
             id: 'week' + i.toString(),
             title: i.toString(),
-            type: actualWeek === i ? ACTUAL_WEEK_TYPE : WEEK_TYPE
+            type: actualWeek === i ? ACTUAL_WEEK_TYPE : (actualWeek > i ? PAST_WEEK_TYPE : FUTURE_WEEK_TYPE)
         });
     }
     return nodes;
@@ -106,9 +107,9 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
 
     getEdgeIndex(searchEdge: IEdge) {
         return this.state.graph.edges.findIndex(edge => {
-        return (
-            edge.source === searchEdge.source && edge.target === searchEdge.target
-        );
+            return (
+                edge.source === searchEdge.source && edge.target === searchEdge.target
+            );
         });
     }
 

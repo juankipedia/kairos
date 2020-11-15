@@ -1,16 +1,23 @@
 import * as React from 'react';
 export const NODE_KEY = 'id';
 export const TASK_TYPE = 'task';
-export const WEEK_TYPE = 'week';
+export const PAST_WEEK_TYPE = 'past_week';
+export const FUTURE_WEEK_TYPE = 'future_week';
 export const ACTUAL_WEEK_TYPE = 'actual_week';
 export const EDGE_TYPE = 'edge';
-export const nodeTypes = [TASK_TYPE, WEEK_TYPE, ACTUAL_WEEK_TYPE];
+export const nodeTypes = [TASK_TYPE, PAST_WEEK_TYPE, FUTURE_WEEK_TYPE, ACTUAL_WEEK_TYPE];
 export const edgeTypes = [EDGE_TYPE];
 
-const Week = (
-    <symbol viewBox="0 0 200 200" id="week">
+const PastWeek = (
+    <symbol viewBox="0 0 200 200" id="past_week">
         <circle cx="100" cy="100" r="70" fill="rgb(216, 216, 216)" color="black"/>
     </symbol>
+);
+
+const FutureWeek = (
+  <symbol viewBox="0 0 200 200" id="future_week">
+      <circle cx="100" cy="100" r="70" fill="rgb(255, 250, 129)" color="black"/>
+  </symbol>
 );
 
 const ActualWeek = (
@@ -39,9 +46,14 @@ export default {
   NodeSubtypes: {
   },
   NodeTypes: {
-    week: {
-      shape: Week,
-      shapeId: '#week',
+    past_week: {
+      shape: PastWeek,
+      shapeId: '#past_week',
+      typeText: 'Week',
+    },
+    future_week: {
+      shape: FutureWeek,
+      shapeId: '#future_week',
       typeText: 'Week',
     },
     actual_week:{
