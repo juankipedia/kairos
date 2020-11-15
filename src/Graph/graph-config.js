@@ -8,7 +8,7 @@ export const edgeTypes = [SPECIAL_EDGE_TYPE];
 
 const SpecialShape = (
     <symbol viewBox="0 0 200 200" id="special">
-        <circle cx="100" cy="100" r="50" fill="rgb(255, 250, 129)" color="black"/>
+        <circle cx="100" cy="100" r="70" fill="rgb(255, 250, 129)" color="black"/>
     </symbol>
 );
 
@@ -35,12 +35,12 @@ export default {
     special: {
       shape: SpecialShape,
       shapeId: '#special',
-      typeText: 'Special',
+      typeText: 'Week',
     },
     poly: {
       shape: PolyShape,
       shapeId: '#poly',
-      typeText: 'Poly',
+      typeText: 'Task',
     }
   },
 };

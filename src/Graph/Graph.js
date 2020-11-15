@@ -18,6 +18,9 @@ type IGraph = {
   edges: IEdge[],
 };
 
+function getLastWeek() {
+    
+}
 
 function getGraphObject() {
     let graphObject: IGraph = {

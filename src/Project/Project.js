@@ -128,7 +128,7 @@ class Project extends React.Component {
               </div>
             </Col>  
             <Col xs={8} md={8} lg={8}>
-              <Graph/>
+              <Graph projectData = {this.state}/>
             </Col>
           </Row>
           <br/>
