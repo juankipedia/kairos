@@ -8,7 +8,7 @@ import {
 } from 'react-digraph';
 import GraphConfig, {
   NODE_KEY,
-  POLY_TYPE,
+  TASK_TYPE,
   SPECIAL_TYPE,
   SPECIAL_EDGE_TYPE,
 } from './graph-config.js'; // Configures node/edge types
@@ -18,35 +18,60 @@ type IGraph = {
   edges: IEdge[],
 };
 
-function getLastWeek() {
-    
+var nodesLen;
+var lastWeek;
+
+function createNodes(projectData) {
+    let nodes = [];
+    lastWeek = 0;
+    projectData.tasks.forEach(t => {
+        lastWeek = Math.max(lastWeek, t.start + t.duration - 1);
+        nodes.push({
+            id: t.id.toString(),
+            title: t.name,
+            type: TASK_TYPE
+        })
+    });
+    for (let i = 1; i <= lastWeek; i++) {
+        nodes.push(            {
+            id: 'week' + i.toString(),
+            title: i.toString(),
+            type: SPECIAL_TYPE
+        });
+    }
+    return nodes;
 }
 
-function getGraphObject() {
-    let graphObject: IGraph = {
-        edges: [
-            {
-                handleTooltipText: '5',
-                source: 'start1',
-                target: 'a1',
+function createEdges(projectData) {
+    let edges = [];
+    projectData.tasks.forEach(t => {
+        for (let i = 0; i < t.duration; i++) {
+            edges.push({
+                source: 'week' + (t.start + i).toString(),
+                target: t.id.toString(),
                 type: SPECIAL_EDGE_TYPE,
-            }
-        ],
-        nodes: [
-            {
-                id: 'start1',
-                title: 'Start (0)',
-                type: SPECIAL_TYPE,
-            },
-            {
-                id: 'a1',
-                title: 'Node A (1)',
-                type: POLY_TYPE,
-                x: 258.3976135253906,
-                y: 331.9783248901367,
-            }
-        ],
-      };
+            });    
+        }
+    });
+    for (let i = 1; i < lastWeek; i++) {
+        edges.push({
+            source: 'week' + i.toString(),
+            target: 'week' + (i + 1).toString(),
+            type: SPECIAL_EDGE_TYPE,
+        }); 
+    }
+    return edges;
+}
+
+function getGraphObject(projectData) {
+    let nodes = createNodes(projectData);
+    let edges = createEdges(projectData);
+    console.log(nodes);
+    let graphObject: IGraph = {
+        edges: edges,
+        nodes: nodes,
+    };
+    nodesLen = graphObject.nodes.length;
     return graphObject;
 }
 
@@ -64,10 +89,10 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
         super(props);
         this.state = {
             copiedNode: null,
-            graph: getGraphObject(),
+            graph: getGraphObject(this.props.projectData),
             layoutEngineType: undefined,
             selected: null,
-            totalNodes: getGraphObject().nodes.length,
+            totalNodes: nodesLen,
         };
         this.GraphView = React.createRef();
     }

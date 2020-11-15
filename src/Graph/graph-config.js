@@ -1,9 +1,9 @@
 import * as React from 'react';
 export const NODE_KEY = 'id';
-export const POLY_TYPE = 'poly';
+export const TASK_TYPE = 'task';
 export const SPECIAL_TYPE = 'special';
 export const SPECIAL_EDGE_TYPE = 'specialEdge';
-export const nodeTypes = [POLY_TYPE, SPECIAL_TYPE];
+export const nodeTypes = [TASK_TYPE, SPECIAL_TYPE];
 export const edgeTypes = [SPECIAL_EDGE_TYPE];
 
 const SpecialShape = (
@@ -12,8 +12,8 @@ const SpecialShape = (
     </symbol>
 );
 
-const PolyShape = (
-  <symbol viewBox="0 0 88 72" id="poly" width="88" height="88">
+const Task = (
+  <symbol viewBox="0 0 88 72" id="task" width="88" height="88">
     <path d="M 0 36 18 0 70 0 88 36 70 72 18 72Z" />
   </symbol>
 );
@@ -37,9 +37,9 @@ export default {
       shapeId: '#special',
       typeText: 'Week',
     },
-    poly: {
-      shape: PolyShape,
-      shapeId: '#poly',
+    task: {
+      shape: Task,
+      shapeId: '#task',
       typeText: 'Task',
     }
   },
