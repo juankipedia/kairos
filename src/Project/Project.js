@@ -24,11 +24,12 @@ class Project extends React.Component {
     for(var i = 0; i < this.state.tasks.length; i++ ) {
       var hoursWorked = 0;
       for(var j = 0; j < this.state.tasks[i].collaborators.length; j++)
-        hoursWorked = this.state.tasks[i].collaborators[j].hours
+        hoursWorked += this.state.tasks[i].collaborators[j].hours
       items.push(
         <ListGroup.Item key={i.toString()} className="task-resume-item">
           {this.state.tasks[i].name + "  / " + (hoursWorked * 100 / this.state.tasks[i].hours).toFixed(2).toString() + "%"}
-        </ListGroup.Item>);
+        </ListGroup.Item>
+      );
     }
     return (
       <ListGroup className="tasks-resume">

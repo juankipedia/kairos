@@ -12,6 +12,8 @@ import GraphConfig, {
   PAST_WEEK_TYPE,
   FUTURE_WEEK_TYPE,
   ACTUAL_WEEK_TYPE,
+  COMPLETED_TASK_TYPE,
+  DELAYED_TASK_TYPE,
   EDGE_TYPE,
 } from './graph-config.js';
 
@@ -26,20 +28,33 @@ var lastWeek;
 function createNodes(projectData, actualWeek) {
     let nodes = [];
     lastWeek = 0;
+    let x = 100;
+
     projectData.tasks.forEach(t => {
         lastWeek = Math.max(lastWeek, t.start + t.duration - 1);
+        var hoursWorked = 0;
+        for(var j = 0; j < t.collaborators.length; j++)
+            hoursWorked += t.collaborators[j].hours
+        let percentage = (hoursWorked * 100 / t.hours).toFixed(2);
         nodes.push({
             id: t.id.toString(),
             title: t.name,
-            type: TASK_TYPE
+            type: (t.start + t.duration - 1 < actualWeek) ? (percentage >= 100 ? COMPLETED_TASK_TYPE : DELAYED_TASK_TYPE) : TASK_TYPE,
+            x: x,
+            y: 200,
         })
+        x += 200;
     });
+    x = 0;
     for (let i = 1; i <= lastWeek; i++) {
         nodes.push({
             id: 'week' + i.toString(),
             title: i.toString(),
-            type: actualWeek === i ? ACTUAL_WEEK_TYPE : (actualWeek > i ? PAST_WEEK_TYPE : FUTURE_WEEK_TYPE)
+            type: actualWeek === i ? ACTUAL_WEEK_TYPE : (actualWeek > i ? PAST_WEEK_TYPE : FUTURE_WEEK_TYPE),
+            x: x,
+            y: 0,
         });
+        x += 200;
     }
     return nodes;
 }
@@ -66,9 +81,11 @@ function createEdges(projectData) {
 }
 
 function getGraphObject(projectData, actualWeek) {
+    projectData.tasks.sort(function(t1, t2) {
+        return (t1.start + t1.duration - 1) - (t2.start + t2.duration - 1);
+    });
     let nodes = createNodes(projectData, actualWeek);
     let edges = createEdges(projectData);
-    console.log(nodes);
     let graphObject: IGraph = {
         edges: edges,
         nodes: nodes,
