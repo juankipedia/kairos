@@ -28,7 +28,7 @@ var lastWeek;
 function createNodes(projectData, actualWeek) {
     let nodes = [];
     lastWeek = 0;
-    let x = 100;
+    let x = 200;
 
     projectData.tasks.forEach(t => {
         lastWeek = Math.max(lastWeek, t.start + t.duration - 1);
@@ -41,9 +41,9 @@ function createNodes(projectData, actualWeek) {
             title: t.name,
             type: (t.start + t.duration - 1 < actualWeek) ? (percentage >= 100 ? COMPLETED_TASK_TYPE : DELAYED_TASK_TYPE) : TASK_TYPE,
             x: x,
-            y: 200,
+            y: 250,
         })
-        x += 200;
+        x += 250;
     });
     x = 0;
     for (let i = 1; i <= lastWeek; i++) {
@@ -54,7 +54,7 @@ function createNodes(projectData, actualWeek) {
             x: x,
             y: 0,
         });
-        x += 200;
+        x += 250;
     }
     return nodes;
 }

@@ -12,37 +12,37 @@ export const edgeTypes = [EDGE_TYPE];
 
 const PastWeek = (
     <symbol viewBox="0 0 200 200" id="past_week">
-        <circle cx="100" cy="100" r="70" fill="rgb(216, 216, 216)" color="black"/>
+        <circle cx="100" cy="100" r="100" fill="rgb(216, 216, 216)" color="black" fontSize="3em" />
     </symbol>
 );
 
 const FutureWeek = (
   <symbol viewBox="0 0 200 200" id="future_week">
-      <circle cx="100" cy="100" r="70" fill="rgb(255, 250, 129)" color="black"/>
+      <circle cx="100" cy="100" r="100" fill="rgb(255, 250, 129)" color="black"/>
   </symbol>
 );
 
 const ActualWeek = (
   <symbol viewBox="0 0 200 200" id="actual_week">
-      <circle cx="100" cy="100" r="70" fill="rgb(111, 183, 214)" color="black"/>
+      <circle cx="100" cy="100" r="100" fill="rgb(111, 183, 214)" color="black"/>
   </symbol>
 );
 
 const Task = (
-  <symbol viewBox="0 0 88 72" id="task" width="88" height="88">
-    <path d="M 0 36 18 0 70 0 88 36 70 72 18 72Z" fill="rgb(255, 250, 129)"/>
+  <symbol viewBox="-27 0 154 154"  id="task" width="154" height="154">
+    <rect transform="translate(50) rotate(45)" width="109" height="109" fill="rgb(255, 250, 129)" />
   </symbol>
 );
 
 const DelayedTask = (
-  <symbol viewBox="0 0 88 72" id="delayed_task" width="88" height="88">
-    <path d="M 0 36 18 0 70 0 88 36 70 72 18 72Z" fill="rgb(252, 169, 133)"/>
+  <symbol viewBox="-27 0 154 154"  id="delayed_task" width="154" height="154">
+    <rect transform="translate(50) rotate(45)" width="109" height="109" fill="rgb(252, 169, 133)"/>
   </symbol>
 );
 
 const CompletedTask = (
-  <symbol viewBox="0 0 88 72" id="completed_task" width="88" height="88">
-    <path d="M 0 36 18 0 70 0 88 36 70 72 18 72Z" fill="rgb(181, 225, 174)"/>
+  <symbol viewBox="-27 0 154 154"  id="completed_task" width="154" height="154">
+    <rect transform="translate(50) rotate(45)" width="109" height="109" fill="rgb(181, 225, 174)"/>
   </symbol>
 );
 
