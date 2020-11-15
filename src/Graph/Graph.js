@@ -152,7 +152,6 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
         const { NodeTypes, NodeSubtypes, EdgeTypes } = GraphConfig;
 
         return (
-        <>
             <div id="graph" style={{ height: '100%', width:'100%'}}>
                 <GraphView
                     ref={el => (this.GraphView = el)}
@@ -166,7 +165,6 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
                     onUpdateNode={this.onUpdateNode}
                 />
             </div>
-        </>
         );
     }
 }
