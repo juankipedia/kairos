@@ -44,7 +44,7 @@ class mod_1 extends React.Component {
 
                     </ModalBody>
                     <ModalFooter>
-                        <Button color = "primary"> Enviar Formulario </Button>
+
                         <Button color = "secondary" onClick = {this.OpenModal}>cerrar formulario </Button>
 
                     </ModalFooter>
