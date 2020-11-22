@@ -6,7 +6,8 @@ import {
   Row,
   Card,
   Button,
-  Accordion
+  Accordion,
+  Form
 } from "react-bootstrap";
 import NavigationBar from "../Nav/NavigationBar";
 import Firebase from 'firebase/app';
@@ -16,28 +17,63 @@ import "./AddProgress.css"
 class AddProgress extends React.Component {
   state = {};
 
-  createTaskListInfo = () => {
-    var cards = [];
-    for(var i = 0; i < this.state.tasks.length; i++) {
-      var collaborators = "";
-      var collaboratorsLen = this.state.tasks[i].collaborators.length; 
-      for(var j = 0; j < collaboratorsLen; j++) {
-        collaborators += this.state.tasks[i].collaborators[j].email;
-        if(j + 1 !== collaboratorsLen)
-          collaborators += ", "
+  changeSelectedCollaborator  = (e, taskId) => {
+    let prevState = this.state;
+    if(!prevState.formData[taskId]){
+      prevState.formData[taskId] = {
+        collaborator: "None",
+        hours: 0,
+        description: "None"
       }
+    }
+    prevState.formData[taskId]["collaborator"] = e.target.value;
+    this.setState(prevState);
+  }
+
+  changeHoursWorked = (e, taskId) => {
+    let prevState = this.state;
+    if(!prevState.formData[taskId]){
+      prevState.formData[taskId] = {
+        collaborator: "None",
+        hours: 0,
+        description: "None"
+      }
+    }
+    prevState.formData[taskId]["hours"] = parseInt(e.target.value);
+    this.setState(prevState);
+  }
+
+  createTaskListForms = () => {
+    var cards = [];
+    for(let i = 0; i < this.state.project.tasks.length; i++) {
+      var collaborators = [];
+      var collaboratorsLen = this.state.project.tasks[i].collaborators.length; 
+      for(let j = 0; j < collaboratorsLen; j++)
+        collaborators.push(this.state.project.tasks[i].collaborators[j].email);
       cards.push(
         <Card key={i.toString()}>
           <Accordion.Toggle as={Card.Header} eventKey={i.toString()}>
-            {this.state.tasks[i].name}
+            {this.state.project.tasks[i].name}
           </Accordion.Toggle>
           <Accordion.Collapse eventKey={i.toString()}>
             <Card.Body className="task-description">
-              {this.state.tasks[i].description}
-              <br/>
-              Collaborators:
-              <br/>
-              {collaborators}
+              <Form>
+                <Form.Group controlId={"DescriptionForm" + this.state.project.tasks[i].name}>
+                  <Form.Label>Description</Form.Label>
+                  <Form.Control placeholder="Enter Description"/>
+                </Form.Group>
+                <Form.Group controlId={"HourSelect" + this.state.project.tasks[i].name}>
+                  <Form.Label>Hours worked</Form.Label>
+                  <Form.Control placeholder="Number of Hours" type="number" onChange={e => this.changeHoursWorked(e, i.toString())}/>
+                </Form.Group>
+                <Form.Group controlId={"CollaboratorSelect" + this.state.project.tasks[i].name}>
+                  <Form.Label>Collaborator</Form.Label>
+                  <Form.Control as="select" onChange={e => this.changeSelectedCollaborator(e, i.toString())}>
+                    <option>None</option>
+                    {collaborators.map(c => <option key = {c + i.toString()}>{c}</option>)}
+                  </Form.Control>
+                </Form.Group>
+              </Form>
             </Card.Body>
           </Accordion.Collapse>
         </Card>
@@ -55,7 +91,7 @@ class AddProgress extends React.Component {
     let ref = Firebase.database().ref('/' + this.props.profile.googleId + '/' + this.props.projectId);
     ref.on('value', snapshot => {
       const project = snapshot.val();
-      this.setState(project)
+      this.setState({project: project, formData:{}})
     });
   }
 
@@ -63,21 +99,27 @@ class AddProgress extends React.Component {
     this.loadProjectData();
   }
 
-
-  getActualTimestampDiff = () => {
-    var cur_date = new Date();
-    var cur_timestamp = cur_date.getTime();
-    var diff  = Math.abs(cur_timestamp - this.state.start);
-    return diff;
+  cancelAddProgress = () => {
+    window.location.assign('./project');
   }
 
-  getActualDay = () => {
-    var w = this.getActualWeek() - 1;
-    return (Math.floor(this.getActualTimestampDiff() / (1000 * 60 * 60 * 24)) - w * 7) + 1;
-  }
-
-  getActualWeek = () => {
-    return Math.floor(this.getActualTimestampDiff() / (1000 * 60 * 60 * 24 * 7)) + 1;
+  confirmAndSubmit = () => {
+    Object.keys(this.state.formData).forEach(t => {
+      if(this.state.formData[t].collaborator !== "None" && this.state.formData[t].hours !== 0){
+        let collaboratorPos = -1;
+        var collaboratorsLen = this.state.project.tasks[t].collaborators.length; 
+        for(let j = 0; j < collaboratorsLen; j++){
+          if(this.state.project.tasks[t].collaborators[j].email === this.state.formData[t].collaborator){
+            collaboratorPos = j;
+            break;
+          }
+        }
+        let key = '/' + this.props.profile.googleId + '/' + this.props.projectId + '/tasks/' + t + '/collaborators/' + collaboratorPos.toString();
+        Firebase.database().ref(key + "/hours").set(this.state.formData[t].hours + this.state.project.tasks[t].collaborators[collaboratorPos].hours);
+        Firebase.database().ref(key + "/contributions").set(this.state.project.tasks[t].collaborators[collaboratorPos].contributions + 1);
+      }
+      window.location.assign('./project');
+    });
   }
 
   render() {
@@ -91,24 +133,24 @@ class AddProgress extends React.Component {
         <Container fluid>
           <br/>
           <Row className="justify-content-center">
-            Day number {this.getActualDay()} of week {this.getActualWeek()}.
+            New Progress.
           </Row>
           <br/>
           <Row className="justify-content-center">
             <Col xs={8} md={8} lg={8}>
-              {this.createTaskListInfo()}
+              {this.createTaskListForms()}
             </Col>
           </Row>
           <br/>
           <Row className="justify-content-center">
             <Col xs={2} md={2} lg={2}>
               <Row className="justify-content-center">
-                <Button variant="danger">Cancel</Button>
+                <Button variant="danger" onClick={this.cancelAddProgress}>Cancel</Button>
               </Row>
             </Col>
             <Col xs={2} md={2} lg={2}>
               <Row className="justify-content-center">
-                <Button variant="success">Confirm</Button>
+                <Button variant="success" onClick={this.confirmAndSubmit}>Confirm</Button>
               </Row>
             </Col>
           </Row>
