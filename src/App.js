@@ -3,6 +3,7 @@ import './App.css';
 import Main from './Main/Main';
 import Home from './Home/Home';
 import Project from './Project/Project'
+import AddProgress from './AddProgress/AddProgress'
 import Firebase from 'firebase/app';
 import "firebase/database"
 import config from './config';
@@ -29,6 +30,9 @@ class App extends React.Component {
               </Route>
               <Route path="/project">
                 <Project />
+              </Route>
+              <Route path="/progress">
+                <AddProgress/>
               </Route>
               <Route path="/">
                 <Main />

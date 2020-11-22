@@ -1,0 +1,11 @@
+.tasks-info {
+    color: #282c34;
+    font-size: 15px;
+    max-height: 420px;
+    overflow-y: auto;
+    height: 420px;
+}
+
+.task-description {
+    height: 350px;
+}

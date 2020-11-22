@@ -29,6 +29,7 @@ class NavigationBar extends React.Component {
         </Navbar.Brand>
         <Nav className="mr-auto">
           <Nav.Link href="./home">Home</Nav.Link>
+          {(this.props.progress ? <Nav.Link href="./project">Project</Nav.Link> : <div/>)}
         </Nav>
         <Form inline>
           <Button variant="outline-primary" onClick={this.logout}>Logout</Button>

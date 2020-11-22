@@ -6,40 +6,15 @@ import {
   Row,
   Card,
   Button,
-  ListGroup,
   Accordion
 } from "react-bootstrap";
 import NavigationBar from "../Nav/NavigationBar";
-import './Project.css';
-import Charts from "../Charts/Charts";
 import Firebase from 'firebase/app';
 import "firebase/database";
-import Graph from '../Graph/Graph';
-import StateLoader from "../StateLoader"
+import "./AddProgress.css"
 
-const stateLoader = new StateLoader();
-
-class Project extends React.Component {
+class AddProgress extends React.Component {
   state = {};
-
-  createTaskListResume = () => {
-    var items = []
-    for(var i = 0; i < this.state.tasks.length; i++ ) {
-      var hoursWorked = 0;
-      for(var j = 0; j < this.state.tasks[i].collaborators.length; j++)
-        hoursWorked += this.state.tasks[i].collaborators[j].hours
-      items.push(
-        <ListGroup.Item key={i.toString()} className="task-resume-item">
-          {this.state.tasks[i].name + "  / " + (hoursWorked * 100 / this.state.tasks[i].hours).toFixed(2).toString() + "%"}
-        </ListGroup.Item>
-      );
-    }
-    return (
-      <ListGroup className="tasks-resume">
-        {items}
-      </ListGroup>
-    );
-  }
 
   createTaskListInfo = () => {
     var cards = [];
@@ -88,6 +63,7 @@ class Project extends React.Component {
     this.loadProjectData();
   }
 
+
   getActualTimestampDiff = () => {
     var cur_date = new Date();
     var cur_timestamp = cur_date.getTime();
@@ -104,11 +80,6 @@ class Project extends React.Component {
     return Math.floor(this.getActualTimestampDiff() / (1000 * 60 * 60 * 24 * 7)) + 1;
   }
 
-  openProgress = () => {
-    stateLoader.saveState({...this.props});
-    window.location.assign('./progress')
-  }
-
   render() {
     if(!this.props.projectId)
       window.location.assign('./home');
@@ -116,39 +87,32 @@ class Project extends React.Component {
       return <p> Loading please wait </p>
     return (
       <div>
-        <NavigationBar/>  
+        <NavigationBar progress={true}/>  
         <Container fluid>
           <br/>
           <Row className="justify-content-center">
-            <Col xs={4} md={4} lg={4}>
-              <Card className="project-card">
-                <Card.Body>
-                  <Card.Title className="card-title"> {this.state.name} </Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">Day number {this.getActualDay()} of week {this.getActualWeek()}</Card.Subtitle>
-                  <Card.Text>
-                    {this.state.description}
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-              <br/>
-              {this.createTaskListResume()}
-              <div style={{paddingTop:"10px"}}>
-                <Button variant="secondary" onClick={this.openProgress}>Add Progress</Button>
-              </div>
-            </Col>  
+            Day number {this.getActualDay()} of week {this.getActualWeek()}.
+          </Row>
+          <br/>
+          <Row className="justify-content-center">
             <Col xs={8} md={8} lg={8}>
-              <Graph projectData={this.state} actualWeek={this.getActualWeek()}/>
+              {this.createTaskListInfo()}
             </Col>
           </Row>
           <br/>
-          <Row>
-            <Col xs={4} md={4} lg={4}>
-              {this.createTaskListInfo()}
+          <Row className="justify-content-center">
+            <Col xs={2} md={2} lg={2}>
+              <Row className="justify-content-center">
+                <Button variant="danger">Cancel</Button>
+              </Row>
             </Col>
-            <Col xs={8} md={8} lg={8}>
-              <Charts projectData={this.state}/>
+            <Col xs={2} md={2} lg={2}>
+              <Row className="justify-content-center">
+                <Button variant="success">Confirm</Button>
+              </Row>
             </Col>
           </Row>
+          <br/>
         </Container>
       </div>
     );
@@ -162,4 +126,4 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Project);
+export default connect(mapStateToProps, mapDispatchToProps)(AddProgress);
