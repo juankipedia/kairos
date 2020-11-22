@@ -15,7 +15,8 @@ import Charts from "../Charts/Charts";
 import Firebase from 'firebase/app';
 import "firebase/database";
 import Graph from '../Graph/Graph';
-import StateLoader from "../StateLoader"
+import StateLoader from "../StateLoader";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner"
 
 const stateLoader = new StateLoader();
 
@@ -113,7 +114,7 @@ class Project extends React.Component {
     if(!this.props.projectId)
       window.location.assign('./home');
     if(Object.keys(this.state).length === 0)
-      return <p> Loading please wait </p>
+      return <LoadingSpinner/>;
     return (
       <div>
         <NavigationBar/>  

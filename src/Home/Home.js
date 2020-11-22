@@ -9,7 +9,8 @@ import {
 import StateLoader from "../StateLoader"
 import NavigationBar from "../Nav/NavigationBar"
 import Firebase from 'firebase/app';
-import "firebase/database"
+import "firebase/database";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner"
 
 const stateLoader = new StateLoader();
 
@@ -56,7 +57,7 @@ class Home extends React.Component {
 
   render() {
     if(Object.keys(this.state).length === 0)
-      return <p> Loading please wait </p>
+      return <LoadingSpinner/>;
     return (
       <div>
         <NavigationBar/>

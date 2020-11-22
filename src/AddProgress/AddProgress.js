@@ -12,7 +12,8 @@ import {
 import NavigationBar from "../Nav/NavigationBar";
 import Firebase from 'firebase/app';
 import "firebase/database";
-import "./AddProgress.css"
+import "./AddProgress.css";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner"
 
 class AddProgress extends React.Component {
   state = {};
@@ -126,7 +127,7 @@ class AddProgress extends React.Component {
     if(!this.props.projectId)
       window.location.assign('./home');
     if(Object.keys(this.state).length === 0)
-      return <p> Loading please wait </p>
+      return <LoadingSpinner/>;
     return (
       <div>
         <NavigationBar progress={true}/>  
