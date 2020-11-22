@@ -91,6 +91,11 @@ class Charts extends React.Component {
                                                     legend:{
                                                         display:true,
                                                         position:'right'
+                                                    },
+                                                    scales: {
+                                                        xAxes: [{
+                                                            barThickness : 15
+                                                        }]
                                                     }
                                                 }}
                                             />

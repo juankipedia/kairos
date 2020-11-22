@@ -15,8 +15,7 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner"
 const stateLoader = new StateLoader();
 
 class Home extends React.Component {
-  state = {
-  };
+  state = {};
 
   openProject = (id)=>{
     stateLoader.saveState({...this.props, projectId: id});
@@ -60,7 +59,7 @@ class Home extends React.Component {
       return <LoadingSpinner/>;
     return (
       <div>
-        <NavigationBar/>
+        <NavigationBar create={true}/>
         <Container>
           <Row className="justify-content-center" style={{padding: "2em"}}>
             <Col>
