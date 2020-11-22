@@ -20,8 +20,8 @@ const Individual_accordion = (props) => {
             <Accordion.Collapse eventKey = 'defaultActiveKey'  >
                 <Card.Body>
                     <ul>
-                        <li>holi </li>
-                       <li>{props.description} </li> 
+                        
+                       <li> descripcion del proyecto:  {props.description} </li> 
                        <li> horas invertidas en este proyecto: {props.t_invertido}</li>
                        <li>< mod_1/> </li>
                     </ul> 
