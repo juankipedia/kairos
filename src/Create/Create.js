@@ -5,7 +5,8 @@ import {
   Col,
   Row,
   Button,
-  Form
+  Form,
+  Modal
 } from "react-bootstrap";
 import NavigationBar from "../Nav/NavigationBar";
 import Firebase from 'firebase/app';
@@ -18,6 +19,8 @@ class Create extends React.Component {
   state = {};
 
   loadProjects = () => {
+    var cur_date = new Date();
+    var cur_timestamp = cur_date.getTime();
     let ref = Firebase.database().ref('/' + this.props.profile.googleId + '/projects');
     ref.on('value', snapshot => {
       const state = {
@@ -26,10 +29,12 @@ class Create extends React.Component {
           name: "",
           description: "",
           members: "",
+          startDate: cur_timestamp,
           nameInvalid: false,
           descriptionInvalid: false,
           membersInvalid: false
-        }
+        },
+        showCalendar: false
       };
       this.setState(state)
     });
@@ -42,14 +47,12 @@ class Create extends React.Component {
   }
 
   handleSubmit = (event) => {
-    console.log("si pero no")
     let nameInvalid = false;
     let descriptionInvalid = false;
     let membersInvalid = false;
     if(this.state.formData.name.length === 0) nameInvalid = true;
     if(this.state.formData.description.length === 0) descriptionInvalid = true;
     if(this.state.formData.members.length === 0) membersInvalid = true;
-    //TODO validate members list by checking emails
     if(nameInvalid || descriptionInvalid || membersInvalid){
       this.setState({
         ...this.state, 
@@ -62,6 +65,24 @@ class Create extends React.Component {
       });
       return;
     }
+
+    let members = this.state.formData.members;
+    members = members.replace(/ /g,'');
+    let membersList = members.split(";");
+    let projectId = this.state.projects.length
+    let projects = this.state.projects;
+    projects[projectId] = this.state.formData.name;
+    let key = '/' + this.props.profile.googleId;
+    Firebase.database().ref(key + '/' + projectId).set({
+      description: this.state.formData.description,
+      id: projectId,
+      members: membersList,
+      name: this.state.formData.name,
+      start: this.state.formData.startDate,
+      tasks: []  
+    });
+    Firebase.database().ref(key + '/projects').set(projects);
+    window.location.assign('./home');
   };
 
   changeName = (e) => {
@@ -96,6 +117,19 @@ class Create extends React.Component {
       }
     });
   };
+
+  changeStartDate = (date) => {
+    this.setState({
+      ...this.state, 
+      formData:{
+        ...this.state.formData,
+        startDate: date.getTime()
+      }
+    });
+  };
+
+  handleCloseCalendar = () => this.setState({...this.state, showCalendar: false});
+  handleShowCalendar = () => this.setState({...this.state, showCalendar: true});
 
   render() {
     if(Object.keys(this.state).length === 0)
@@ -139,8 +173,22 @@ class Create extends React.Component {
                             Invalid members list.
                         </Form.Control.Feedback>
                     </Form.Group>
-                    <Button variant="success" onClick={this.handleSubmit}>Create</Button>
+                    <Form.Group>
+                      <Button onClick={this.handleShowCalendar} variant="light">Pick start date</Button>
+                      <Modal show={this.state.showCalendar} onHide={this.handleCloseCalendar} size="sm">
+                          <Modal.Header closeButton>
+                          </Modal.Header>
+                          <Modal.Body>
+                            <Calendar onChange={this.changeStartDate}/>
+                          </Modal.Body>
+                      </Modal>
+                    </Form.Group>
                 </Form>
+            </Col>
+          </Row>
+          <Row className="justify-content-center">
+            <Col xs={6} md={6} lg={6}>
+              <Button variant="success" onClick={this.handleSubmit}>Create</Button>
             </Col>
           </Row>
         </Container>
