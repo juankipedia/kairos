@@ -2,9 +2,10 @@ import React from 'react';
 import './App.css';
 import Main from './Main/Main';
 import Home from './Home/Home';
-import Project from './Project/Project'
-import AddProgress from './AddProgress/AddProgress'
-import Create from './Create/Create'
+import Project from './Project/Project';
+import AddProgress from './AddProgress/AddProgress';
+import CreateProject from './CreateProject/CreateProject';
+import CreateTask from './CreateTask/CreateTask';
 import Firebase from 'firebase/app';
 import "firebase/database"
 import config from './config';
@@ -35,8 +36,11 @@ class App extends React.Component {
               <Route path="/progress">
                 <AddProgress/>
               </Route>
-              <Route path="/create">
-                <Create/>
+              <Route path="/create-project">
+                <CreateProject/>
+              </Route>
+              <Route path="/create-task">
+                <CreateTask/>
               </Route>
               <Route path="/">
                 <Main />

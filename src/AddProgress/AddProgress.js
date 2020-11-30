@@ -130,7 +130,7 @@ class AddProgress extends React.Component {
       return <LoadingSpinner/>;
     return (
       <div>
-        <NavigationBar progress={true}/>  
+        <NavigationBar returnProject={true}/>  
         <Container fluid>
           <br/>
           <Row className="justify-content-center">

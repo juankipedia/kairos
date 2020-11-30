@@ -15,7 +15,7 @@ import "firebase/database";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
-class Create extends React.Component {
+class CreateProject extends React.Component {
   state = {};
 
   loadProjects = () => {
@@ -212,4 +212,4 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Create);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProject);

@@ -16,7 +16,7 @@ import Firebase from 'firebase/app';
 import "firebase/database";
 import Graph from '../Graph/Graph';
 import StateLoader from "../StateLoader";
-import LoadingSpinner from "../LoadingSpinner/LoadingSpinner"
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const stateLoader = new StateLoader();
 
@@ -110,14 +110,30 @@ class Project extends React.Component {
     window.location.assign('./progress')
   }
 
+  openCreateTask = () => {
+    stateLoader.saveState({...this.props});
+    window.location.assign('./create-task')
+  }
+
   render() {
     if(!this.props.projectId)
       window.location.assign('./home');
     if(Object.keys(this.state).length === 0)
       return <LoadingSpinner/>;
+    if(!this.state.tasks)
+      return(
+        <div>
+          <NavigationBar createTask={this.openCreateTask}/>
+          <Container fluid>
+            <Row className="justify-content-center" style={{paddingTop:"25%"}}>
+              <Button variant="secondary" onClick={this.openCreateTask}> New Task </Button>
+            </Row>
+          </Container>
+        </div>
+      );
     return (
       <div>
-        <NavigationBar/>  
+        <NavigationBar createTask={this.openCreateTask}/>  
         <Container fluid>
           <br/>
           <Row className="justify-content-center">

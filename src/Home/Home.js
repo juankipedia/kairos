@@ -59,7 +59,7 @@ class Home extends React.Component {
       return <LoadingSpinner/>;
     return (
       <div>
-        <NavigationBar create={true}/>
+        <NavigationBar createProject={true}/>
         <Container>
           <Row className="justify-content-center" style={{padding: "2em"}}>
             <Col>
