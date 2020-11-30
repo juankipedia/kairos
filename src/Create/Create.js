@@ -69,8 +69,16 @@ class Create extends React.Component {
     let members = this.state.formData.members;
     members = members.replace(/ /g,'');
     let membersList = members.split(";");
-    let projectId = this.state.projects.length
-    let projects = this.state.projects;
+    let projectId;
+    let projects;
+    if(this.state.projects){
+      projectId = this.state.projects.length;
+      projects = this.state.projects;
+    }
+    else{
+      projectId = 1;
+      projects = {};
+    }
     projects[projectId] = this.state.formData.name;
     let key = '/' + this.props.profile.googleId;
     Firebase.database().ref(key + '/' + projectId).set({
