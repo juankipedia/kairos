@@ -144,6 +144,8 @@ class Project extends React.Component {
                     <Card.Subtitle className="mb-2 text-muted">Day number {this.getActualDay()} of week {this.getActualWeek()}</Card.Subtitle>
                   <Card.Text>
                     {this.state.description}
+                    <br/>
+                    {"Members: " + this.state.members.join(", ")}
                   </Card.Text>
                 </Card.Body>
               </Card>
