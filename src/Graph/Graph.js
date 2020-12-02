@@ -36,10 +36,14 @@ function createNodes(projectData, actualWeek) {
         for(var j = 0; j < t.collaborators.length; j++)
             hoursWorked += t.collaborators[j].hours
         let percentage = (hoursWorked * 100 / t.hours).toFixed(2);
+        let type;
+        if(percentage >= 100) type = COMPLETED_TASK_TYPE;
+        else if(t.start + t.duration - 1 >= actualWeek) type = TASK_TYPE;
+        else type = DELAYED_TASK_TYPE;
         nodes.push({
             id: t.id.toString(),
             title: t.name,
-            type: (t.start + t.duration - 1 < actualWeek) ? (percentage >= 100 ? COMPLETED_TASK_TYPE : DELAYED_TASK_TYPE) : TASK_TYPE,
+            type: type,
             x: x,
             y: 250,
         })
