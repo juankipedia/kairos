@@ -95,6 +95,11 @@ class Charts extends React.Component {
                                                     scales: {
                                                         xAxes: [{
                                                             barThickness : 15
+                                                        }],
+                                                        yAxes: [{
+                                                            ticks: {
+                                                                beginAtZero: true
+                                                            }
                                                         }]
                                                     }
                                                 }}

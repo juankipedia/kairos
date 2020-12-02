@@ -206,7 +206,7 @@ class CreateTask extends React.Component {
                 <Form>
                     <Form.Group controlId="name">
                         <Form.Label>Name</Form.Label>
-                        <Form.Control placeholder="Enter project name" 
+                        <Form.Control placeholder="Enter name" 
                                       required isInvalid={this.state.formData.nameInvalid}
                                       onChange={e => this.changeName(e)}/>
                         <Form.Control.Feedback type="invalid">
