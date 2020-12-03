@@ -10,7 +10,8 @@ import StateLoader from "../StateLoader"
 import NavigationBar from "../Nav/NavigationBar"
 import Firebase from 'firebase/app';
 import "firebase/database";
-import LoadingSpinner from "../LoadingSpinner/LoadingSpinner"
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import {BsFillTrashFill} from "react-icons/bs";
 
 const stateLoader = new StateLoader();
 
@@ -36,14 +37,28 @@ class Home extends React.Component {
     this.loadProjects();
   }
 
-  createTaskListResume = () => {
+  deleteProject = (projectId) => {
+    let key = '/' + this.props.profile.googleId + '/' + projectId;
+    Firebase.database().ref(key).set({});
+    key = '/' + this.props.profile.googleId + '/projects/' + projectId;
+    Firebase.database().ref(key).set({});
+  }
+
+  createProjectList = () => {
     if(this.state.projects === null)
       return
     var items = []
     Object.keys(this.state.projects).forEach(projectId =>
       items.push(
-        <ListGroup.Item key={projectId} action onClick={() => this.openProject(projectId)}>
-          {this.state.projects[projectId]}
+        <ListGroup.Item key={projectId} action>
+          <Row>
+            <Col xs={10} md={10} lg={10} onClick={() => this.openProject(projectId)}>
+                {this.state.projects[projectId]}
+            </Col>
+            <Col xs={2} md={2} lg={2}>
+              <BsFillTrashFill onClick={() => this.deleteProject(projectId)}/>
+            </Col>
+          </Row>
         </ListGroup.Item>
       )
     )
@@ -63,7 +78,7 @@ class Home extends React.Component {
         <Container>
           <Row className="justify-content-center" style={{padding: "2em"}}>
             <Col>
-              {this.createTaskListResume()}
+              {this.createProjectList()}
             </Col>  
           </Row>
         </Container>

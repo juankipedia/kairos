@@ -72,7 +72,9 @@ class CreateProject extends React.Component {
     let projectId;
     let projects;
     if(this.state.projects){
-      projectId = this.state.projects.length;
+      projectId = 0;
+      Object.keys(this.state.projects).forEach(id => projectId = Math.max(projectId, id));
+      projectId += 1;
       projects = this.state.projects;
     }
     else{
