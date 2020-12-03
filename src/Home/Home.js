@@ -4,7 +4,9 @@ import {
   Container,
   ListGroup,
   Col,
-  Row
+  Row,
+  Modal,
+  Button
 } from "react-bootstrap";
 import StateLoader from "../StateLoader"
 import NavigationBar from "../Nav/NavigationBar"
@@ -26,7 +28,11 @@ class Home extends React.Component {
   loadProjects = () => {
     let ref = Firebase.database().ref('/' + this.props.profile.googleId + '/projects');
     ref.on('value', snapshot => {
-      const state = {projects: snapshot.val()};
+      const state = {
+        projects: snapshot.val(),
+        deleteModalOpen: false,
+        projectIdToDelete: -1,
+      };
       this.setState(state)
     });
   }
@@ -37,31 +43,55 @@ class Home extends React.Component {
     this.loadProjects();
   }
 
-  deleteProject = (projectId) => {
-    let key = '/' + this.props.profile.googleId + '/' + projectId;
+  deleteProject = () => {
+    let key = '/' + this.props.profile.googleId + '/' + this.state.projectIdToDelete;
     Firebase.database().ref(key).set({});
-    key = '/' + this.props.profile.googleId + '/projects/' + projectId;
+    key = '/' + this.props.profile.googleId + '/projects/' + this.state.projectIdToDelete;
     Firebase.database().ref(key).set({});
+  }
+
+  closeDeleteModal = () => {
+    this.setState({
+      ...this.state,
+      deleteModalOpen: false,
+      projectIdToDelete: -1
+    });
+  }
+
+  openDeleteModal = (id) => {
+    this.setState({
+      ...this.state,
+      deleteModalOpen: true,
+      projectIdToDelete: id
+    });
   }
 
   createProjectList = () => {
     if(this.state.projects === null)
       return
     var items = []
-    Object.keys(this.state.projects).forEach(projectId =>
+    Object.keys(this.state.projects).forEach(projectId =>{
       items.push(
         <ListGroup.Item key={projectId} action>
           <Row>
             <Col xs={10} md={10} lg={10} onClick={() => this.openProject(projectId)}>
-                {this.state.projects[projectId]}
+              {this.state.projects[projectId]}
             </Col>
             <Col xs={2} md={2} lg={2}>
-              <BsFillTrashFill onClick={() => this.deleteProject(projectId)}/>
+              <BsFillTrashFill onClick={() =>  this.openDeleteModal(projectId)}/>
+              <Modal show={this.state.deleteModalOpen} onHide={this.closeDeleteModal} size="md">
+                  <Modal.Header closeButton>
+                    Are you sure you want to delete project: {" " + this.state.projects[this.state.projectIdToDelete] + " ?"}
+                  </Modal.Header>
+                  <Modal.Body>
+                    <Button variant="danger" onClick={() => this.deleteProject()}>Confirm</Button>
+                  </Modal.Body>
+              </Modal>
             </Col>
           </Row>
         </ListGroup.Item>
       )
-    )
+    })
     return (
       <ListGroup style={{overflowY: "auto", maxHeight: "25em"}}>
         {items}

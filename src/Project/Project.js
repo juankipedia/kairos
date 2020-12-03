@@ -7,7 +7,8 @@ import {
   Card,
   Button,
   ListGroup,
-  Accordion
+  Accordion,
+  Modal
 } from "react-bootstrap";
 import NavigationBar from "../Nav/NavigationBar";
 import './Project.css';
@@ -17,21 +18,71 @@ import "firebase/database";
 import Graph from '../Graph/Graph';
 import StateLoader from "../StateLoader";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import {BsFillTrashFill} from "react-icons/bs";
 
 const stateLoader = new StateLoader();
 
 class Project extends React.Component {
   state = {};
 
+  closeDeleteModal = () => {
+    this.setState({
+      ...this.state,
+      deleteModalOpen: false,
+      taskIdToDelete: -1
+    });
+  }
+
+  openDeleteModal = (id) => {
+    this.setState({
+      ...this.state,
+      deleteModalOpen: true,
+      taskIdToDelete: id
+    });
+  }
+
+  deleteTask = () => {
+    let t = [];
+    let cnt = 0;
+    for(let i = 0; i < this.state.tasks.length; i++){
+      if(this.state.taskIdToDelete !== this.state.tasks[i].id){
+        t.push({...this.state.tasks[i], id: cnt});
+        cnt++;
+      }
+    }
+    let key = '/' + this.props.profile.googleId + '/' + this.props.projectId + '/tasks';
+    Firebase.database().ref(key).set(t);
+    this.setState({
+      ...this.state,
+      tasks: t,
+    });
+    window.location.assign('./project');
+  }
+
   createTaskListResume = () => {
     var items = []
-    for(var i = 0; i < this.state.tasks.length; i++ ) {
+    for(let i = 0; i < this.state.tasks.length; i++ ) {
       var hoursWorked = 0;
-      for(var j = 0; j < this.state.tasks[i].collaborators.length; j++)
+      for(let j = 0; j < this.state.tasks[i].collaborators.length; j++)
         hoursWorked += this.state.tasks[i].collaborators[j].hours
       items.push(
         <ListGroup.Item key={i.toString()} className="task-resume-item">
-          {this.state.tasks[i].name + "  / " + (hoursWorked * 100 / this.state.tasks[i].hours).toFixed(2).toString() + "%"}
+          <Row>
+            <Col xs={10} md={10} lg={10}>
+              {this.state.tasks[i].name + "  / " + (hoursWorked * 100 / this.state.tasks[i].hours).toFixed(2).toString() + "%"}
+            </Col>
+            <Col xs={2} md={2} lg={2}>
+              <BsFillTrashFill onClick={() => this.openDeleteModal(this.state.tasks[i].id)}/>
+              <Modal show={this.state.deleteModalOpen} onHide={this.closeDeleteModal} size="md">
+                  <Modal.Header closeButton>
+                    Are you sure you want to delete this task?
+                  </Modal.Header>
+                  <Modal.Body>
+                    <Button variant="danger" onClick={() => this.deleteTask()}>Confirm</Button>
+                  </Modal.Body>
+              </Modal>
+            </Col>
+          </Row>
         </ListGroup.Item>
       );
     }
@@ -81,7 +132,7 @@ class Project extends React.Component {
     let ref = Firebase.database().ref('/' + this.props.profile.googleId + '/' + this.props.projectId);
     ref.on('value', snapshot => {
       const project = snapshot.val();
-      this.setState(project)
+      this.setState({...project, deleteModalOpen: false, taskIdToDelete: -1,})
     });
   }
 
