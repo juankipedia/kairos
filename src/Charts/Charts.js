@@ -8,13 +8,14 @@ import {
   Modal
 } from "react-bootstrap";
 import "./Charts.css";
-import {Bar, Pie} from 'react-chartjs-2';
+import {Bar, Doughnut, Pie} from 'react-chartjs-2';
 import crypto from 'crypto';
 
 class Charts extends React.Component {
     state = {
         chart1Show: false,
-        chart2Show: false
+        chart2Show: false,
+        chart3Show: false
     }
 
     hex_color_from_string = (s) => {
@@ -59,6 +60,28 @@ class Charts extends React.Component {
                 backgroundColor: Object.values(colors),
                 hoverBackgroundColor: Object.values(colors),
                 data: Object.values(members)
+            }]
+        }
+    }
+
+
+    handleCloseChart3 = () => this.setState({...this.state, chart3Show: false});
+    handleShowChart3 = () => this.setState({...this.state, chart3Show: true});
+    getChart3Data = () => {
+        let data = {missing: 0, completed: 0};
+        let total = 0;
+        this.props.projectData.tasks.forEach(t =>{
+            t.collaborators.forEach(c => data.completed += c.hours);
+            total += t.hours;
+        });
+        data.missing = total - data.completed;
+        return {
+            labels: Object.keys(data),
+            datasets: [{
+                label: 'Total Progress',
+                backgroundColor: Object.values({missing: "FFFFCC", completed: "#CCEEDD"}),
+                hoverBackgroundColor: Object.values({missing: "FFFFCC", completed: "#CCEEDD"}),
+                data: Object.values(data)
             }]
         }
     }
@@ -127,6 +150,40 @@ class Charts extends React.Component {
                                                         title:{
                                                         display:true,
                                                         text:'Contributions per Collaborator',
+                                                        fontSize:20
+                                                    },
+                                                    legend:{
+                                                        display:true,
+                                                        position:'right'
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                    </Modal.Body>
+                                </Modal>
+                            </Row>
+                        </Col>  
+                    </Row>
+                    <br/>
+                    <Row>
+                        <Col xs={6} md={6} lg={6} >
+                            <Row className="justify-content-center">
+                                <p>Total progress</p>
+                            </Row>
+                            <Row className="justify-content-center" >
+                                <Button className="donut-chart" onClick={this.handleShowChart3}/>
+                                <Modal show={this.state.chart3Show} onHide={this.handleCloseChart3}>
+                                    <Modal.Header closeButton>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <div className="chart-div">
+                                            <Doughnut
+                                                height={200}
+                                                data={this.getChart3Data}
+                                                options={{
+                                                        title:{
+                                                        display:true,
+                                                        text:'Total Progress',
                                                         fontSize:20
                                                     },
                                                     legend:{

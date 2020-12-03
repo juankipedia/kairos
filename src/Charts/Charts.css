@@ -23,3 +23,13 @@
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
+
+.donut-chart {
+    background: url("../resources/donutChartIcon.png");
+    width: 160px;
+    height: 160px;
+    background-color: transparent!important;
+    border-color: transparent!important;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
